@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const jwt = require("jsonwebtoken");
+require("dotenv/config");
 
 // ℹ️ Handles password encryption
 const bcrypt = require("bcrypt");
@@ -13,8 +15,13 @@ const User = require("../models/User.model");
 // Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-router.get("/loggedin", (req, res) => {
+router.get("/", (req, res) => {
+  res.json("AUTH");
+});
+
+router.get("/loggedin", isAuthenticated, (req, res) => {
   res.json(req.user);
 });
 
@@ -83,7 +90,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
   });
 });
 
-router.post("/login", isLoggedOut, (req, res, next) => {
+router.post("/login", (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username) {
@@ -113,9 +120,18 @@ router.post("/login", isLoggedOut, (req, res, next) => {
         if (!isSamePassword) {
           return res.status(400).json({ errorMessage: "Wrong credentials." });
         }
-        req.session.user = user;
-        // req.session.user = user._id; // ! better and safer but in this case we saving the entire user object
-        return res.json(user);
+
+        const payload = { _id: user._id, username: user.username };
+
+        const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+          algorithm: "HS256",
+          expiresIn: "6h",
+        });
+
+        // Send the token as the response
+        return res.status(200).json(authToken);
+
+        // return res.json(user);
       });
     })
 
