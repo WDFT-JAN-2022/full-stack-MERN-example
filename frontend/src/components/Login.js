@@ -33,11 +33,16 @@ const Login = () => {
     e.preventDefault();
     get("/api/auth/loggedIn")
       .then((results) => {
-        console.log("log in?", results.data);
+        console.log("Are you logged in?", results.data);
       })
       .catch((err) => {
         console.error(err.message);
       });
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    console.log("You have logged out");
   };
 
   return (
@@ -50,6 +55,7 @@ const Login = () => {
       </form>
       <button onClick={checkIfLoggedIn}>See if you are logged in</button>
       <button onClick={checkToken}>check if token is stored</button>
+      <button onClick={logout}>Log Out</button>
     </div>
   );
 };

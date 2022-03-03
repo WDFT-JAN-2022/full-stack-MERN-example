@@ -2,7 +2,7 @@ import axios from "axios";
 import { url } from "./url";
 
 //Standard axios GET
-// axios.get('http://localhost:5000/all-pets')
+// axios.get('http://localhost:5005/all-pets')
 
 //GET request
 //GET order: route, headers
