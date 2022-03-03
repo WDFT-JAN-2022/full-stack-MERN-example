@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import axios from "axios";
+import Login from "./components/Login";
 
 function App() {
   const [items, setItems] = React.useState([]);
@@ -18,6 +19,7 @@ function App() {
 
   return (
     <div className="App">
+      <Login />
       <button onClick={getItems}>Get Items</button>
       {items.map((item) => {
         return (

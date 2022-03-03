@@ -21,8 +21,8 @@ router.get("/", (req, res) => {
   res.json("AUTH");
 });
 
-router.get("/loggedin", isAuthenticated, (req, res) => {
-  res.json(req.user);
+router.get("/loggedIn", isAuthenticated, (req, res) => {
+  res.json("You are logged in");
 });
 
 router.post("/signup", isLoggedOut, (req, res) => {
