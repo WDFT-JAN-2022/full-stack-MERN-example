@@ -2,6 +2,9 @@ import React from "react";
 import "./App.css";
 import axios from "axios";
 import Login from "./components/Login";
+import { Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Profile from "./components/Profile";
 
 function App() {
   const [items, setItems] = React.useState([]);
@@ -19,9 +22,17 @@ function App() {
 
   return (
     <div className="App">
-      <Login />
-      <button onClick={getItems}>Get Items</button>
-      {items.map((item) => {
+      <h2>Navbar</h2>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
+
+      {/* <Login /> */}
+      {/* <button onClick={getItems}>Get Items</button> */}
+      {/* {items.map((item) => {
         return (
           <div key={item._id}>
             <h3>{item.name}</h3>
@@ -29,7 +40,7 @@ function App() {
             <p>{item.price}</p>
           </div>
         );
-      })}
+      })} */}
     </div>
   );
 }

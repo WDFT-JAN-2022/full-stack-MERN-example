@@ -1,9 +1,13 @@
+import axios from "axios";
 import React from "react";
 import { get, post } from "../http/service";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = React.useState("Mike");
   const [password, setPassword] = React.useState("password");
+
+  const navigate = useNavigate();
 
   const loginUser = (e) => {
     e.preventDefault();
@@ -13,9 +17,9 @@ const Login = () => {
     })
       .then((results) => {
         console.log("You are logged in!!!", results.data);
-
+        //results.data is the JSON web token
         localStorage.setItem("token", results.data);
-
+        navigate("/profile");
         // let thing = localStorage.getItem("token");
         // console.log("This was stored in our localStorage", thing);
       })
